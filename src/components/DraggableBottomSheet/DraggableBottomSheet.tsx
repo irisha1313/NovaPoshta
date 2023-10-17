@@ -10,11 +10,15 @@ import { style } from "./styles"
 
 interface IDraggableBottomSheet {
 	children: React.ReactNode
+	setVisibleFooterContent: React.Dispatch<
+		React.SetStateAction<boolean>
+	>
+	visibleFooterContent: boolean
 }
 export const { width: WINDOW_WIDTH, height: WINDOW_HEIGHT } =
 	Dimensions.get("window")
 
-const BOTTOM_SHEET_MAX_HEIGHT = WINDOW_HEIGHT * 0.6
+const BOTTOM_SHEET_MAX_HEIGHT = WINDOW_HEIGHT * 0.4
 const BOTTOM_SHEET_MIN_HEIGHT = WINDOW_HEIGHT * 0.1
 const MAX_UPWARD_TRANSLATE_Y =
 	BOTTOM_SHEET_MIN_HEIGHT - BOTTOM_SHEET_MAX_HEIGHT // negative number;
@@ -23,7 +27,10 @@ const DRAG_THRESHOLD = 50
 
 export const DraggableBottomSheet: FC<IDraggableBottomSheet> = ({
 	children,
+	setVisibleFooterContent,
+	visibleFooterContent,
 }) => {
+	console.log(BOTTOM_SHEET_MIN_HEIGHT - BOTTOM_SHEET_MAX_HEIGHT)
 	const animatedValue = useRef(new Animated.Value(0)).current
 	const lastGestureDy = useRef(0)
 	const panResponder = useRef(
@@ -56,6 +63,7 @@ export const DraggableBottomSheet: FC<IDraggableBottomSheet> = ({
 			},
 		})
 	).current
+
 	const bottomSheetAnimation = {
 		transform: [
 			{
@@ -64,10 +72,7 @@ export const DraggableBottomSheet: FC<IDraggableBottomSheet> = ({
 						MAX_UPWARD_TRANSLATE_Y,
 						MAX_DOWNWARD_TRANSLATE_Y,
 					],
-					outputRange: [
-						MAX_UPWARD_TRANSLATE_Y,
-						MAX_DOWNWARD_TRANSLATE_Y,
-					],
+					outputRange: [-250, 60],
 					extrapolate: "clamp",
 				}),
 			},
@@ -75,6 +80,10 @@ export const DraggableBottomSheet: FC<IDraggableBottomSheet> = ({
 	}
 	const springAnimation = (direction: "up" | "down") => {
 		console.log("direction", direction)
+		if (direction === "up") {
+			setVisibleFooterContent(true)
+		} else setVisibleFooterContent(false)
+	
 		lastGestureDy.current =
 			direction === "down"
 				? MAX_DOWNWARD_TRANSLATE_Y
@@ -90,25 +99,14 @@ export const DraggableBottomSheet: FC<IDraggableBottomSheet> = ({
 				style={[
 					style.bottomSheet,
 					{
-						height: BOTTOM_SHEET_MAX_HEIGHT,
-						bottom: BOTTOM_SHEET_MIN_HEIGHT - BOTTOM_SHEET_MAX_HEIGHT,
+						height: 600,
+						bottom: -500,
 					},
 					bottomSheetAnimation,
 				]}
 				{...panResponder.panHandlers}
-			>
-				<Text
-					style={{
-						textAlign: "center",
-						fontSize: 18,
-						paddingVertical: 10,
-					}}
-				>
-					CAtegory
-				</Text>
-
-				<View style={style.draggableArea}></View>
-				<View style={style.content}>{children}</View>
+			> 
+				<View>{children}</View>
 			</Animated.View>
 		</View>
 	)

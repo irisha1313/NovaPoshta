@@ -1,4 +1,5 @@
 import { CardList } from "@/components/CardList/CardList"
+import { DraggableBottomSheet } from "@/components/DraggableBottomSheet/DraggableBottomSheet"
 import { HeaderMenu } from "@/components/HeaderMenu/HeaderMenu"
 import React, { FC, useRef } from "react"
 import { Animated, Easing, View } from "react-native"

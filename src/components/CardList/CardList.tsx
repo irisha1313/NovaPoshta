@@ -12,7 +12,7 @@ interface ICardList {}
 export const CardList: FC<ICardList> = ({}) => {
 	const [visibleFooterContent, setVisibleFooterContent] =
 		useState(false)
-	const [categoryName, setCategoryName] = useState([
+	const [categoriesName, setCategoriesName] = useState([
 		"Дата Додавання",
 		"Дата вiправлення",
 		"Дата доствки",
@@ -22,8 +22,7 @@ export const CardList: FC<ICardList> = ({}) => {
 	const navigation: NativeStackNavigationProp<TypeRootStackParamList> =
 		useNavigation()
 
-	const [status, setStatus] = useState(categoryName[0])
-
+	const [status, setStatus] = useState(categoriesName[0])
 	const fildeterData = useMemo(() => {
 		if (status === "Дата Додавання") return data
 		if (status === "Дата вiправлення") {
@@ -45,7 +44,6 @@ export const CardList: FC<ICardList> = ({}) => {
 			return data.filter((status) => status.status === "done")
 		}
 	}, [status, data])
-
 	return (
 		<View style={{ marginBottom: 50 }}>
 			<ScrollView>
@@ -65,7 +63,7 @@ export const CardList: FC<ICardList> = ({}) => {
 			<CardListMenu
 				setStatus={setStatus}
 				setVisibleFooterContent={setVisibleFooterContent}
-				categoryName={categoryName}
+				categoriesName={categoriesName}
 				visibleFooterContent={visibleFooterContent}
 				status={status}
 			/>

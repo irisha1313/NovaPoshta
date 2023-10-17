@@ -8,9 +8,9 @@ export const style = StyleSheet.create({
 	bottomSheet: {
 		position: "absolute",
 		width: "100%",
-		backgroundColor: "white",
-		borderTopLeftRadius: 32,
-		borderTopRightRadius: 32,
+		backgroundColor: "#ccc",
+		borderTopLeftRadius: 72,
+		borderTopRightRadius: 72,
 	},
 	draggableArea: {
 		width: 132,
@@ -18,13 +18,5 @@ export const style = StyleSheet.create({
 		alignSelf: "center",
 		justifyContent: "center",
 		alignItems: "center",
-		backgroundColor: "red",
 	},
-	dragHandle: {
-		width: 100,
-		height: 6,
-		backgroundColor: "#d3d3d3",
-		borderRadius: 10,
-	},
-	content: {},
 })

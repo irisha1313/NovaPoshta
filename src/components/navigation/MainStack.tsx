@@ -13,13 +13,17 @@ import Icon from "react-native-vector-icons/SimpleLineIcons"
 import { Information } from ".."
 import { CardDetail } from "../UI/Card"
 import { RouteDetail } from "../UI/Card/RouteDetail/RouteDetail"
+import { DraggableBottomSheet } from "../DraggableBottomSheet/DraggableBottomSheet"
 interface IMainStack {}
 export const MainStack: FC<IMainStack> = ({}) => {
 	const Stack = createNativeStackNavigator()
-	const [showMenu, setShowMenu] = React.useState(true)
 
 	return (
 		<Stack.Navigator>
+			{/* <Stack.Screen
+				component={DraggableBottomSheet}
+				name="DraggableBottomSheet"
+			/> */}
 			<Stack.Screen
 				name={EScreens.HOME}
 				component={Home}
