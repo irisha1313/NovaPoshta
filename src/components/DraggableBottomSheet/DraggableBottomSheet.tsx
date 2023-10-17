@@ -1,15 +1,16 @@
-import React, { FC, useRef } from "react"
+import React, { FC, useRef, useState } from "react"
 import {
 	View,
 	Text,
-	StyleSheet,
 	Animated,
 	Dimensions,
-  PanResponder,
+	PanResponder,
 } from "react-native"
 import { style } from "./styles"
 
-interface IDraggableBottomSheet {}
+interface IDraggableBottomSheet {
+	children: React.ReactNode
+}
 export const { width: WINDOW_WIDTH, height: WINDOW_HEIGHT } =
 	Dimensions.get("window")
 
@@ -20,9 +21,9 @@ const MAX_UPWARD_TRANSLATE_Y =
 const MAX_DOWNWARD_TRANSLATE_Y = 0
 const DRAG_THRESHOLD = 50
 
-export const DraggableBottomSheet: FC<
-	IDraggableBottomSheet
-> = ({}) => {
+export const DraggableBottomSheet: FC<IDraggableBottomSheet> = ({
+	children,
+}) => {
 	const animatedValue = useRef(new Animated.Value(0)).current
 	const lastGestureDy = useRef(0)
 	const panResponder = useRef(
@@ -33,11 +34,6 @@ export const DraggableBottomSheet: FC<
 			},
 			onPanResponderMove: (e, gesture) => {
 				animatedValue.setValue(gesture.dy)
-				if (lastGestureDy.current < MAX_DOWNWARD_TRANSLATE_Y) {
-					lastGestureDy.current = MAX_UPWARD_TRANSLATE_Y
-				} else if (lastGestureDy.current > MAX_DOWNWARD_TRANSLATE_Y) {
-					lastGestureDy.current = MAX_UPWARD_TRANSLATE_Y
-				}
 			},
 			onPanResponderRelease: (e, gesture) => {
 				animatedValue.flattenOffset()
@@ -45,14 +41,14 @@ export const DraggableBottomSheet: FC<
 				if (gesture.dy > 0) {
 					// dragging down
 					if (gesture.dy <= DRAG_THRESHOLD) {
-						springAnimation("up")
+						springAnimation("down")
 					} else {
 						springAnimation("down")
 					}
 				} else {
 					// dragging up
 					if (gesture.dy >= -DRAG_THRESHOLD) {
-						springAnimation("down")
+						springAnimation("up")
 					} else {
 						springAnimation("up")
 					}
@@ -60,7 +56,6 @@ export const DraggableBottomSheet: FC<
 			},
 		})
 	).current
-
 	const bottomSheetAnimation = {
 		transform: [
 			{
@@ -91,7 +86,6 @@ export const DraggableBottomSheet: FC<
 	}
 	return (
 		<View style={style.container}>
-			<Text> sdfsdfds</Text>
 			<Animated.View
 				style={[
 					style.bottomSheet,
@@ -101,6 +95,7 @@ export const DraggableBottomSheet: FC<
 					},
 					bottomSheetAnimation,
 				]}
+				{...panResponder.panHandlers}
 			>
 				<Text
 					style={{
@@ -108,18 +103,12 @@ export const DraggableBottomSheet: FC<
 						fontSize: 18,
 						paddingVertical: 10,
 					}}
-					{...panResponder.panHandlers}
 				>
 					CAtegory
 				</Text>
 
-				<View
-					style={style.draggableArea}
-					{...panResponder.panHandlers}
-				></View>
-				<View style={style.content}>
-					<Text>FDSFSD</Text>
-				</View>
+				<View style={style.draggableArea}></View>
+				<View style={style.content}>{children}</View>
 			</Animated.View>
 		</View>
 	)
