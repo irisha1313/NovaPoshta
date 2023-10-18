@@ -12,7 +12,7 @@ import { MainStack } from "./MainStack";
 interface INavigation {}
 export const Navigation: FC<INavigation> = ({}) => {
   const dispatch = useDispatch();
-  const { user, isLoading } = useAppSelector((state) => state.auth)
+  const { user } = useAppSelector((state) => state.auth)
 
   React.useEffect(() => {
     FIREBASE_AUTH.onAuthStateChanged((authUser) => {

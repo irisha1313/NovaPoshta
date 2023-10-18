@@ -9,7 +9,7 @@ import { ProgressBar } from "./ProgressBar/ProgressBar"
 import * as Clipboard from "expo-clipboard"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack/lib/typescript/src/types"
 interface ICardDetail {
-	navigation: NativeStackNavigationProp<TypeRootStackParamList>
+	navigation: NativeStackNavigationProp<TypeRootStackParamList> | any
 	route: any
 }
 export const CardDetail: FC<ICardDetail> = ({
@@ -20,17 +20,16 @@ export const CardDetail: FC<ICardDetail> = ({
 	const arrivalDate = new Date(Date.parse(item.arrival.date))
 	const departureDate = new Date(Date.parse(item.departure.date))
 
-	const [copiedText, setCopiedText] = React.useState("")
-
 	const copyToClipboard = async () => {
 		await Clipboard.setStringAsync(`${item.id}`)
-		Alert.alert("Alert Title")
+		Alert.alert("Copied")
 	}
 
-	const fetchCopiedText = async () => {
-		const text = await Clipboard.getStringAsync()
-		setCopiedText(text)
-	}
+	React.useEffect(() => {
+		navigation.setOptions({
+			title: "Iнформацiя про посилку",
+		})
+	}, [])
 	return (
 		<View>
 			<View style={style.topInfo}>

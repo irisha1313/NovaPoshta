@@ -1,5 +1,5 @@
 import React, { FC } from "react"
-import { StyleSheet, Text, View } from "react-native"
+import { Text, View } from "react-native"
 
 import { Link } from "@react-navigation/native"
 import Icon from "react-native-vector-icons/AntDesign"
@@ -14,10 +14,13 @@ export const Information: FC<IInformation> = ({}) => {
 				<Text> поштомат 50 грн</Text>
 			</View>
 			<View>
-				<Icon name="arrowright" size={30} color="#000" style={style.arrow} />
+				<Icon
+					name="arrowright"
+					size={30}
+					color="#000"
+					style={style.arrow}
+				/>
 			</View>
 		</Link>
 	)
 }
-
-

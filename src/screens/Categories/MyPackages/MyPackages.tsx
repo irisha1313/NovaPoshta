@@ -67,6 +67,7 @@ export const MyPackages: FC<IMyPackages> = ({ navigation }) => {
 
 	React.useEffect(() => {
 		navigation.setOptions({
+			title: "Мої посилки",
 			headerRight: () => (
 				<Animated.View
 					style={{

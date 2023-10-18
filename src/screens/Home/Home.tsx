@@ -1,17 +1,13 @@
 import * as ScreenOrientation from "expo-screen-orientation"
 
-import {
-	BarCode,
-	CategoryList,
-	Information,
-	SlideBar,
-} from "@/components"
+import { BarCode, CategoryList, SlideBar } from "@/components"
 import { FC, useEffect, useRef, useState } from "react"
 import {
 	Animated,
 	Dimensions,
+	FlatList,
 	Text,
-	View
+	View,
 } from "react-native"
 
 import { BarCodeModal } from "@/components/BarCodeModal/BarCodeModal"
@@ -19,9 +15,14 @@ import { options } from "@/data"
 import React from "react"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import { style } from "./style"
+import { Navigation } from "@/components/navigation/Navigation"
+import Icon from "react-native-vector-icons/SimpleLineIcons"
+import { Information } from "../Information/Information"
 
-interface IHome {}
-export const Home: FC<IHome> = ({}) => {
+interface IHome {
+	navigation: any
+}
+export const Home: FC<IHome> = ({ navigation }) => {
 	const { width } = Dimensions.get("window")
 	const [scrollYPosition, setScrollYPosition] = useState(0)
 	const useRefscrollView = useRef(null)
@@ -36,6 +37,17 @@ export const Home: FC<IHome> = ({}) => {
 	}
 	useEffect(() => {
 		getOrientation()
+		navigation.setOptions({
+			headerRight: () => (
+				<Icon
+					name="user"
+					size={15}
+					color="red"
+					onPress={() => navigation.navigate("PersonalOffice")}
+				/>
+			),
+			title: "",
+		})
 	}, [orientation])
 
 	return (
@@ -63,7 +75,7 @@ export const Home: FC<IHome> = ({}) => {
 					showModal={showModalWindow}
 				/>
 				<Information />
-			</View> 
+			</View>
 
 			<View style={style.container}>
 				<Animated.ScrollView
@@ -114,6 +126,6 @@ export const Home: FC<IHome> = ({}) => {
 					</View>
 				</Animated.ScrollView>
 			</View>
-			</>
+		</>
 	)
 }

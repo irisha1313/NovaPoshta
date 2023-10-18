@@ -8,7 +8,6 @@ import {
 	Dimensions,
 	PanResponder,
 } from "react-native"
-import { DraggableBottomSheet } from "@/components/DraggableBottomSheet/DraggableBottomSheet"
 interface ICartListMenu {
 	setVisibleFooterContent: React.Dispatch<
 		React.SetStateAction<boolean>
@@ -56,14 +55,14 @@ export const CardListMenu: FC<ICartListMenu> = ({
 				if (gesture.dy > 0) {
 					// dragging down
 					if (gesture.dy <= DRAG_THRESHOLD) {
-						springAnimation("down")
-					} else {
 						springAnimation("up")
+					} else {
+						springAnimation("down")
 					}
 				} else {
 					// dragging up
 					if (gesture.dy >= -DRAG_THRESHOLD) {
-						springAnimation("up")
+						springAnimation("down")
 					} else {
 						springAnimation("up")
 					}
