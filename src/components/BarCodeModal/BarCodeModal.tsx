@@ -4,7 +4,7 @@ import {
 	Image,
 	SafeAreaView,
 	Text,
-	View
+	View,
 } from "react-native"
 
 import { formatDate } from "@/utils/dataFormat"
@@ -24,7 +24,6 @@ export const BarCodeModal: FC<IBarCode> = ({
 	setShowModal,
 	showModal,
 	orientation,
-	setOrientation,
 }) => {
 	const [currentDate, setCurrentDate] = useState(new Date())
 
@@ -52,56 +51,48 @@ export const BarCodeModal: FC<IBarCode> = ({
 				opacity: fadeAnim,
 			}}
 		>
-			<Modal isVisible={true} style={style.card}>
+			<Modal
+				isVisible={true}
+				style={
+					showModal === true ? style.modal : style.modalHorizontal
+				}
+			>
 				<SafeAreaView
 					style={
-						showModal === true
-							? style.safeAreaView
-							: style.isVerticalSafeAreaView
+						showModal === true ? style.SafeAreaView : { bottom: 150 }
 					}
 				>
-					<Icon
-						name="close"
-						onPress={
-							showModal === true
-								? () => setShowModal(false)
-								: () => setOrientation(1)
-						}
-						size={30}
-						style={
-							showModal === true ? style.icon : style.isVerticalIcon
-						}
-					/>
+					{showModal && (
+						<Icon
+							name="close"
+							onPress={() => setShowModal(false)}
+							size={30}
+							style={
+								showModal === true ? style.Icon : style.IconHorizontal
+							}
+						/>
+					)}
+
 					<View
 						style={
-							showModal === true
-								? { left: 180, top: 100 }
-								: style.isVerticalBarCode
+							showModal === true ? style.View : style.ViewHorizontal
 						}
 					>
 						<Text
 							style={
-								showModal === true ? style.date : style.dateVertical
+								showModal === true ? style.Text : style.TextHorizontal
 							}
 						>
 							{formatDate(currentDate)}
 						</Text>
 						<Image
-							style={{
-								width: 400,
-								marginTop: 50,
-								height: 100,
-							}}
+							style={style.Image}
 							source={{
 								uri: "https://img.freepik.com/free-vector/illustration-barcode_53876-44019.jpg?w=740&t=st=1694679413~exp=1694680013~hmac=75721dbd739c6324e31c848a66e60ae7db037d2876936b7488ea6b4d7447600a",
 							}}
 						/>
 					</View>
-					<View
-						style={
-							showModal ? style.cartInfo : style.isVerticalCartInfo
-						}
-					>
+					<View style={showModal ? style.isVerticalCartInfo : null}>
 						<Text style={style.cartText}>Карта Клієнта</Text>
 						<Text style={style.userinfo}>Користувач</Text>
 						<Text> +38 093 042 8113</Text>

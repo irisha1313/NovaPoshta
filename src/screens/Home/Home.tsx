@@ -6,6 +6,7 @@ import {
 	Animated,
 	Dimensions,
 	FlatList,
+	Pressable,
 	Text,
 	View,
 } from "react-native"
@@ -26,9 +27,9 @@ export const Home: FC<IHome> = ({ navigation }) => {
 	const { width } = Dimensions.get("window")
 	const [scrollYPosition, setScrollYPosition] = useState(0)
 	const useRefscrollView = useRef(null)
-	const [orientation, setOrientation] = useState(1)
-	const [showModalWindow, setShowModalWindow] = useState(false)
 
+	const [orientation, setOrientation] = useState(1)
+	const [showModal, setShowModal] = useState(false)
 	const getOrientation = async () => {
 		ScreenOrientation.unlockAsync()
 		ScreenOrientation.addOrientationChangeListener((event: any) => {
@@ -37,46 +38,26 @@ export const Home: FC<IHome> = ({ navigation }) => {
 	}
 	useEffect(() => {
 		getOrientation()
-		navigation.setOptions({
-			headerRight: () => (
-				<Icon
-					name="user"
-					size={15}
-					color="red"
-					onPress={() => navigation.navigate("PersonalOffice")}
-				/>
-			),
-			title: "",
-		})
 	}, [orientation])
 
 	return (
 		<>
 			<View style={{ backgroundColor: "#ffff" }}>
 				<SlideBar />
-				{showModalWindow && (
-					<BarCodeModal
-						setShowModal={setShowModalWindow}
-						showModal={showModalWindow}
-						orientation={orientation}
-						setOrientation={setOrientation}
-					/>
-				)}
-				{orientation === 4 && (
-					<BarCodeModal
-						setShowModal={setShowModalWindow}
-						showModal={showModalWindow}
-						orientation={orientation}
-						setOrientation={setOrientation}
-					/>
-				)}
-				<BarCode
-					setShowModal={setShowModalWindow}
-					showModal={showModalWindow}
-				/>
+				<View>
+					<BarCode setShowModal={setShowModal}/>
+					
+					{orientation === 3 || orientation === 4 || showModal ? (
+						<BarCodeModal
+							showModal={showModal}
+							setShowModal={setShowModal}
+							orientation={orientation}
+							setOrientation={setOrientation}
+						/>
+					) : null}
+				</View>
 				<Information />
 			</View>
-
 			<View style={style.container}>
 				<Animated.ScrollView
 					ref={useRefscrollView}

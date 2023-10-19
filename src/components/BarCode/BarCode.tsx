@@ -3,11 +3,13 @@ import { Image, Pressable, StyleSheet, Text } from "react-native"
 
 interface IBarCode {
 	setShowModal: React.Dispatch<React.SetStateAction<boolean>>
-	showModal: boolean
 }
-export const BarCode: FC<IBarCode> = ({ setShowModal, showModal }) => {
+export const BarCode: FC<IBarCode> = ({ setShowModal }) => {
 	return (
-		<Pressable style={style.container} onPress={() => setShowModal(true)}>
+		<Pressable
+			style={style.container}
+			onPress={() => setShowModal(true)}
+		>
 			<Image
 				style={{
 					width: 400,
